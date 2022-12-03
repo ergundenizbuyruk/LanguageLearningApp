@@ -37,6 +37,17 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
                 _context.SaveChanges();
             }
 
+            // Student role for host
+
+            var studentRoleForHost = _context.Roles.IgnoreQueryFilters().FirstOrDefault(r => r.TenantId == null && r.Name == StaticRoleNames.Host.Student);
+            if (studentRoleForHost == null)
+            {
+                studentRoleForHost = _context.Roles.Add(new Role(null, StaticRoleNames.Host.Student, StaticRoleNames.Host.Student) { IsStatic = true, IsDefault = true }).Entity;
+                _context.SaveChanges();
+            }
+
+
+
             // Grant all permissions to admin role for host
 
             var grantedPermissions = _context.Permissions.IgnoreQueryFilters()
@@ -59,7 +70,7 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
                         TenantId = null,
                         Name = permission.Name,
                         IsGranted = true,
-                        RoleId = adminRoleForHost.Id
+                        RoleId = permission.Name == "Student" ? 3 : adminRoleForHost.Id
                     })
                 );
                 _context.SaveChanges();

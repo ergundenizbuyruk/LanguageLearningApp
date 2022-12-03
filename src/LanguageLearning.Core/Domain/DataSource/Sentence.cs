@@ -3,7 +3,7 @@ using Abp.Domain.Entities.Auditing;
 
 namespace LanguageLearning.Domain.DataSource
 {
-    public class Sentence : Entity, IStringQuestion
+    public class Sentence : FullAuditedEntity, IStringQuestion
     {
         public string TurkishSentence { get; set; }
         public string EnglishSentence { get; set; }

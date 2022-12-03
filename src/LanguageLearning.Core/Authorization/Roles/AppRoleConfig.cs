@@ -16,6 +16,13 @@ namespace LanguageLearning.Authorization.Roles
                 )
             );
 
+            roleManagementConfig.StaticRoles.Add(
+                new StaticRoleDefinition(
+                    StaticRoleNames.Host.Student,
+                    MultiTenancySides.Host
+                )
+            );
+
             // Static tenant roles
 
             roleManagementConfig.StaticRoles.Add(

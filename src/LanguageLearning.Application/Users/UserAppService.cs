@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
+
     public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
@@ -53,14 +53,16 @@ namespace LanguageLearning.Users
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
         {
-            CheckCreatePermission();
+            input.IsActive = true;
+            input.RoleName = PermissionNames.Student;
+            //CheckCreatePermission();
 
             var user = ObjectMapper.Map<User>(input);
 
             user.TenantId = AbpSession.TenantId;
             user.IsEmailConfirmed = true;
 
-            await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
+            //await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
 
             CheckErrors(await _userManager.CreateAsync(user, input.Password));
 
@@ -76,7 +78,7 @@ namespace LanguageLearning.Users
 
             return MapToEntityDto(user);
         }
-
+        [AbpAuthorize]
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
             CheckUpdatePermission();
@@ -98,13 +100,21 @@ namespace LanguageLearning.Users
             return await GetAsync(input);
         }
 
+        [AbpAuthorize(PermissionNames.Admin)]
+        public override Task<PagedResultDto<UserDto>> GetAllAsync(PagedUserResultRequestDto input)
+        {
+            return base.GetAllAsync(input);
+        }
+
+
+        [AbpAuthorize(PermissionNames.Admin)]
         public override async Task DeleteAsync(EntityDto<long> input)
         {
             var user = await _userManager.GetUserByIdAsync(input.Id);
             await _userManager.DeleteAsync(user);
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
+        [AbpAuthorize(PermissionNames.Admin)]
         public async Task Activate(EntityDto<long> user)
         {
             await Repository.UpdateAsync(user.Id, async (entity) =>
@@ -112,8 +122,7 @@ namespace LanguageLearning.Users
                 entity.IsActive = true;
             });
         }
-
-        [AbpAuthorize(PermissionNames.Pages_Users_Activation)]
+        [AbpAuthorize(PermissionNames.Admin)]
         public async Task DeActivate(EntityDto<long> user)
         {
             await Repository.UpdateAsync(user.Id, async (entity) =>
@@ -121,7 +130,7 @@ namespace LanguageLearning.Users
                 entity.IsActive = false;
             });
         }
-
+        [AbpAuthorize]
         public async Task<ListResultDto<RoleDto>> GetRoles()
         {
             var roles = await _roleRepository.GetAllListAsync();
@@ -149,7 +158,6 @@ namespace LanguageLearning.Users
             ObjectMapper.Map(input, user);
             user.SetNormalizedNames();
         }
-
         protected override UserDto MapToEntityDto(User user)
         {
             var roleIds = user.Roles.Select(x => x.RoleId).ToArray();
@@ -161,14 +169,14 @@ namespace LanguageLearning.Users
 
             return userDto;
         }
-
+        [AbpAuthorize]
         protected override IQueryable<User> CreateFilteredQuery(PagedUserResultRequestDto input)
         {
             return Repository.GetAllIncluding(x => x.Roles)
                 .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.UserName.Contains(input.Keyword) || x.Name.Contains(input.Keyword) || x.EmailAddress.Contains(input.Keyword))
                 .WhereIf(input.IsActive.HasValue, x => x.IsActive == input.IsActive);
         }
-
+        [AbpAuthorize]
         protected override async Task<User> GetEntityByIdAsync(long id)
         {
             var user = await Repository.GetAllIncluding(x => x.Roles).FirstOrDefaultAsync(x => x.Id == id);
@@ -180,7 +188,7 @@ namespace LanguageLearning.Users
 
             return user;
         }
-
+        [AbpAuthorize]
         protected override IQueryable<User> ApplySorting(IQueryable<User> query, PagedUserResultRequestDto input)
         {
             return query.OrderBy(r => r.UserName);
@@ -190,7 +198,7 @@ namespace LanguageLearning.Users
         {
             identityResult.CheckErrors(LocalizationManager);
         }
-
+        [AbpAuthorize]
         public async Task<bool> ChangePassword(ChangePasswordDto input)
         {
             await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
@@ -215,7 +223,7 @@ namespace LanguageLearning.Users
 
             return true;
         }
-
+        [AbpAuthorize]
         public async Task<bool> ResetPassword(ResetPasswordDto input)
         {
             if (_abpSession.UserId == null)

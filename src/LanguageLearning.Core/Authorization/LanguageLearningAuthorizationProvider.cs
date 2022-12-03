@@ -12,7 +12,10 @@ namespace LanguageLearning.Authorization
             context.CreatePermission(PermissionNames.Pages_Users_Activation, L("UsersActivation"));
             context.CreatePermission(PermissionNames.Pages_Roles, L("Roles"));
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
-        }
+
+            context.CreatePermission(PermissionNames.Admin, L("Admins"), multiTenancySides: MultiTenancySides.Host);
+            context.CreatePermission(PermissionNames.Student, L("Students"), multiTenancySides: MultiTenancySides.Host);
+    }
 
         private static ILocalizableString L(string name)
         {

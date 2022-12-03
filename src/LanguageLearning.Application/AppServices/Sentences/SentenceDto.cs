@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.Sentences
 {
     [AutoMap(typeof(Sentence))]
-    public class SentenceDto:EntityDto
+    public class SentenceDto : EntityDto
     {
         public string TurkishSentence { get; set; }
         public string EnglishSentence { get; set; }
