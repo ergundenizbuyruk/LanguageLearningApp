@@ -1,14 +1,5 @@
-﻿using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
-using LanguageLearning.Authorization.Users;
+﻿using Abp.AutoMapper;
 using LanguageLearning.Domain;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {

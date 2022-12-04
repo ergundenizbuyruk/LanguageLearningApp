@@ -19,5 +19,5 @@ namespace LanguageLearning.AppServices.Languages
 
     }
 
-    public interface ILanguageAppService: IAsyncCrudAppService<LanguageDto, int, LanguageDto, LanguageCreateDto, LanguageUpdateDto> { }
+    public interface ILanguageAppService : IAsyncCrudAppService<LanguageDto, int, LanguageDto, LanguageCreateDto, LanguageUpdateDto> { }
 }

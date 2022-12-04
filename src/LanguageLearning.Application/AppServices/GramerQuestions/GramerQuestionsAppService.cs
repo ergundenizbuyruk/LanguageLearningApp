@@ -1,6 +1,4 @@
 ﻿using Abp.Application.Services;
-using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
 using LanguageLearning.Domain.Questions;
@@ -33,7 +31,7 @@ namespace LanguageLearning.AppServices.GramerQuestions
             };
 
             var gramerQuestionFromDb = await _gramerQuestions.InsertAsync(gramerQuestion);
-            return new GramerQuestionCreateOutputDto 
+            return new GramerQuestionCreateOutputDto
             {
                 Id = gramerQuestion.Id,
                 LessonId = gramerQuestionFromDb.LessonId,
@@ -75,6 +73,7 @@ namespace LanguageLearning.AppServices.GramerQuestions
             };
         }
 
+        [HttpDelete]
         public async Task Delete(int input)
         {
             await _gramerQuestions.DeleteAsync(input);

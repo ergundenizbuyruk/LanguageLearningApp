@@ -1,13 +1,13 @@
-﻿using Abp.AutoMapper;
-using LanguageLearning.Domain.Questions;
+﻿using Abp.Application.Services.Dto;
+using LanguageLearning.Domain;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LanguageLearning.AppServices.GramerQuestions.Dtos
+namespace LanguageLearning.AppServices.VocabularyQuestions.Dtos
 {
-    [AutoMap(typeof(GramerQuestion))]
-    public class GramerQuestionCreateDto
+    public class VocabularyQuestionUpdateDto : EntityDto
     {
         public int LessonId { get; set; }
-        public string Sentence { get; set; }
+        public string Word { get; set; }
         public string OptionA { get; set; }
         public string OptionB { get; set; }
         public string OptionC { get; set; }

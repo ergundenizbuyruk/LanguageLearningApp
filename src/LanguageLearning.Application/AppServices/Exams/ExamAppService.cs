@@ -1,12 +1,10 @@
 ﻿using Abp.Application.Services;
-using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using AutoMapper;
 using LanguageLearning.AppServices.Exams.Dtos;
 using LanguageLearning.Domain;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,7 +98,7 @@ namespace LanguageLearning.AppServices.Exams
 
             Exam examFromDb = await _examRepository.InsertAsync(exam);
 
-            return new ExamCreateOutputDto 
+            return new ExamCreateOutputDto
             {
                 Id = examFromDb.Id,
                 LessonId = examFromDb.LessonId,

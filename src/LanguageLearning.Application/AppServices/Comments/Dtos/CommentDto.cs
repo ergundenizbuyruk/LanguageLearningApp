@@ -2,9 +2,6 @@
 using Abp.AutoMapper;
 using LanguageLearning.Authorization.Users;
 using LanguageLearning.Domain;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
