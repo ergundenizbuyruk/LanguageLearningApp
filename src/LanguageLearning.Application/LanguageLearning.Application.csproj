@@ -17,5 +17,7 @@
   <ItemGroup>
     <Folder Include="AppServices\SpeakingQuestions\" />
     <Folder Include="AppServices\WritingQuestions\" />
+    <Folder Include="AppServices\VocabularyQuestions\" />
+    <Folder Include="AppServices\ListeningQuestions\" />
   </ItemGroup>
 </Project>
