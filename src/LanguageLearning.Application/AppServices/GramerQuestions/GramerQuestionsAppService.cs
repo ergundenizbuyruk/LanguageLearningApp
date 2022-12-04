@@ -1,7 +1,9 @@
 ﻿using Abp.Application.Services;
+using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
 using LanguageLearning.Domain.Questions;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.GramerQuestions
@@ -15,9 +17,61 @@ namespace LanguageLearning.AppServices.GramerQuestions
             _gramerQuestions = gramerQuestions;
         }
 
-        public Task<GramerQuestionCreateOutputDto> Create(GramerQuestionCreateDto input)
+        [HttpPost]
+        public async Task<GramerQuestionCreateOutputDto> Create(GramerQuestionCreateDto input)
         {
-            return null;
+            GramerQuestion gramerQuestion = new GramerQuestion
+            {
+                LessonId = input.LessonId,
+                Sentence = input.Sentence,
+                OptionA = input.OptionA,
+                OptionB = input.OptionB,
+                OptionC = input.OptionC,
+                OptionD = input.OptionD,
+                CorrectOption = input.CorrectOption
+            };
+
+            var gramerQuestionFromDb = await _gramerQuestions.InsertAsync(gramerQuestion);
+            return new GramerQuestionCreateOutputDto 
+            {
+                Id = gramerQuestion.Id,
+                LessonId = gramerQuestionFromDb.LessonId,
+                Sentence = gramerQuestionFromDb.Sentence,
+                OptionA = gramerQuestionFromDb.OptionA,
+                OptionB = gramerQuestionFromDb.OptionB,
+                OptionC = gramerQuestionFromDb.OptionC,
+                OptionD = gramerQuestionFromDb.OptionD,
+                CorrectOption = gramerQuestionFromDb.CorrectOption
+            };
+        }
+
+        [HttpPatch]
+        public async Task<GramerQuestionCreateOutputDto> Update(GramerQuestionUpdateDto input)
+        {
+            GramerQuestion gramerQuestion = new GramerQuestion
+            {
+                Id = input.Id,
+                LessonId = input.LessonId,
+                Sentence = input.Sentence,
+                OptionA = input.OptionA,
+                OptionB = input.OptionB,
+                OptionC = input.OptionC,
+                OptionD = input.OptionD,
+                CorrectOption = input.CorrectOption
+            };
+
+            var gramerQuestionFromDb = await _gramerQuestions.UpdateAsync(gramerQuestion);
+            return new GramerQuestionCreateOutputDto
+            {
+                Id = gramerQuestion.Id,
+                LessonId = gramerQuestionFromDb.LessonId,
+                Sentence = gramerQuestionFromDb.Sentence,
+                OptionA = gramerQuestionFromDb.OptionA,
+                OptionB = gramerQuestionFromDb.OptionB,
+                OptionC = gramerQuestionFromDb.OptionC,
+                OptionD = gramerQuestionFromDb.OptionD,
+                CorrectOption = gramerQuestionFromDb.CorrectOption
+            };
         }
     }
 
