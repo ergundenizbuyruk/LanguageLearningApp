@@ -3,21 +3,17 @@ using Abp.AutoMapper;
 using LanguageLearning.Authorization.Users;
 using LanguageLearning.Domain;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
     [AutoMap(typeof(Comment))]
     public class CommentDto : EntityDto
     {
+        public Lesson Lesson { get; set; }
         public User User { get; set; }
         public string Content { get; set; }
         public int Rate { get; set; }
-        public Section Section { get; set; }
     }
 }

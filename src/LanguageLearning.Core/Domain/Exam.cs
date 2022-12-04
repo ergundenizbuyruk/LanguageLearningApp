@@ -1,19 +1,19 @@
-﻿using Abp.Domain.Entities;
+﻿using Abp.AutoMapper;
 using Abp.Domain.Entities.Auditing;
-using LanguageLearning.Domain.Questions;
-using System.Collections.Generic;
+using LanguageLearning.Authorization.Users;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageLearning.Domain
 {
-    public class Exam : Entity
+    public class Exam : FullAuditedEntity
     {
-        [ForeignKey("SectionId")]
-        public Section Section { get; set; }
-        public int SectionId { get; set; }
-        public List<InfillQuestion> InfillQuestions { get; set; }
-        public List<SentenceTranslationQuestion> SentenceTranslationQuestions { get; set; }
-        public List<WordTranslationQuestion> WordTranslationsQuestions { get; set; }
+        [ForeignKey("LessonId")]
+        public Lesson Lesson { get; set; }
+        public int LessonId { get; set; }
 
+        [ForeignKey("UserId")]
+        public User User { get; set; }
+        public int UserId { get; set; }
+        public int Grade { get; set; }
     }
 }

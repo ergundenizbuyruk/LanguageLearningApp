@@ -18,6 +18,6 @@ namespace LanguageLearning.AppServices.Comments.Dtos
         public int UserId { get; set; }
         public string Content { get; set; }
         public int Rate { get; set; }
-        public int SectionId { get; set; }
+        public int LessonId { get; set; }
     }
 }

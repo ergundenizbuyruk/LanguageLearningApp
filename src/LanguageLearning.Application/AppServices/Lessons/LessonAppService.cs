@@ -1,5 +1,6 @@
 ﻿using Abp.Application.Services;
 using Abp.Domain.Repositories;
+using LanguageLearning.AppServices.Lessons.Dtos;
 using LanguageLearning.Authorization;
 using LanguageLearning.Domain;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Lessons
 {
-    public class LessonAppService : AsyncCrudAppService<Lesson, LessonDto>, ILessonAppService
+    public class LessonAppService : AsyncCrudAppService<Lesson, LessonDto, int, LessonDto, LessonCreateDto, LessonUpdateDto>, ILessonAppService
     {
         public LessonAppService(IRepository<Lesson, int> repository) : base(repository)
         {
@@ -24,5 +25,5 @@ namespace LanguageLearning.AppServices.Lessons
     }
 
 
-    public interface ILessonAppService : IAsyncCrudAppService<LessonDto> { }
+    public interface ILessonAppService : IAsyncCrudAppService<LessonDto, int, LessonDto, LessonCreateDto, LessonUpdateDto> { }
 }

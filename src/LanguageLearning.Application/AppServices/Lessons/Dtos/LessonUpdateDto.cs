@@ -9,16 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LanguageLearning.AppServices.Lessons
+namespace LanguageLearning.AppServices.Lessons.Dtos
 {
     [AutoMap(typeof(Lesson))]
-    public class LessonDto : EntityDto
+    public class LessonUpdateDto : EntityDto
     {
         public string Name { get; set; }
-        public List<Section> Sections { get; set; }
-
-        [ForeignKey("LanguageId")]
-        public Language Language { get; set; }
-        public int LanguageId { get; set; }
     }
 }

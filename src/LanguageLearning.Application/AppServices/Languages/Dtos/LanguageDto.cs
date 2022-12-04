@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LanguageLearning.AppServices.Languages
+namespace LanguageLearning.AppServices.Languages.Dtos
 {
     [AutoMap(typeof(Language))]
     public class LanguageDto : EntityDto

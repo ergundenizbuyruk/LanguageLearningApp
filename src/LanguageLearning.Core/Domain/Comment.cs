@@ -7,8 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageLearning.Domain
 {
-    public class Comment : Entity
+    public class Comment : FullAuditedEntity
     {
+        [ForeignKey("LessonId")]
+        public Lesson Lesson { get; set; }
+        public int LessonId { get; set; }
         public long UserId { get; set; }
 
         [ForeignKey("UserId")]
@@ -17,9 +20,5 @@ namespace LanguageLearning.Domain
 
         [Range(1, 5)]
         public int Rate { get; set; }
-
-        [ForeignKey("SectionId")]
-        public Section Section { get; set; }
-        public int SectionId { get; set; }
     }
 }
