@@ -62,6 +62,8 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
                             !grantedPermissions.Contains(p.Name))
                 .ToList();
 
+            var studentRoleId = _context.Roles.Where(u => u.DisplayName.Equals("Student")).First().Id;
+
             if (permissions.Any())
             {
                 _context.Permissions.AddRange(
@@ -70,7 +72,7 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
                         TenantId = null,
                         Name = permission.Name,
                         IsGranted = true,
-                        RoleId = permission.Name == "Student" ? 3 : adminRoleForHost.Id
+                        RoleId = permission.Name == "Student" ? studentRoleId : adminRoleForHost.Id
                     })
                 );
                 _context.SaveChanges();
