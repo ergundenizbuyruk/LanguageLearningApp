@@ -15,9 +15,7 @@
     <ProjectReference Include="..\LanguageLearning.Core\LanguageLearning.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AppServices\SpeakingQuestions\" />
     <Folder Include="AppServices\VocabularyQuestions\" />
-    <Folder Include="AppServices\WritingQuestions\" />
     <Folder Include="AppServices\ListeningQuestions\" />
   </ItemGroup>
 </Project>
