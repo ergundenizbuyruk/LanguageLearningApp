@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
@@ -73,6 +74,12 @@ namespace LanguageLearning.AppServices.GramerQuestions
                 CorrectOption = gramerQuestionFromDb.CorrectOption
             };
         }
+
+        public async Task Delete(int input)
+        {
+            await _gramerQuestions.DeleteAsync(input);
+        }
+
     }
 
     public interface IGramerQuestionsAppService : IApplicationService { }
