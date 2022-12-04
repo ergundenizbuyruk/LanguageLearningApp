@@ -10,7 +10,6 @@ namespace LanguageLearning.Authorization.Users
     {
         public const string DefaultPassword = "123qwe";
         public List<Language> Languages { get; set; }
-
         public static string CreateRandomPassword()
         {
             return Guid.NewGuid().ToString("N").Truncate(16);

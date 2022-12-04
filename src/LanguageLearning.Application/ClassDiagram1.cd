@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LanguageLearning.Domain.Comment">
+    <Position X="7.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Exam">
+    <Position X="9.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Language">
+    <Position X="11" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Lesson">
+    <Position X="9.25" Y="6.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Section">
+    <Position X="11" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.LanguageLevel">
+    <Position X="7.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.DataSource.Sentence" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.838" Collapsed="true" />
+  </Class>
+  <Class Name="LanguageLearning.Domain.DataSource.Word" BaseTypeListCollapsed="true">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.1" Collapsed="true" />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Questions.InfillQuestion">
+    <Position X="2.5" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Questions.SentenceTranslationQuestion">
+    <Position X="4.5" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="LanguageLearning.Domain.Questions.WordTranslationQuestion">
+    <Position X="0.5" Y="6" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="LanguageLearning.Domain.DataSource.IStringQuestion" Collapsed="true">
+    <Position X="2.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
