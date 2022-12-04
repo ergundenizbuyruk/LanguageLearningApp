@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LanguageLearning.Migrations
 {
     [DbContext(typeof(LanguageLearningDbContext))]
-    [Migration("20221129211302_initial")]
+    [Migration("20221204215517_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -1601,10 +1601,10 @@ namespace LanguageLearning.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("Rate")
+                    b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SectionId")
+                    b.Property<int>("Rate")
                         .HasColumnType("int");
 
                     b.Property<long>("UserId")
@@ -1612,91 +1612,11 @@ namespace LanguageLearning.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SectionId");
+                    b.HasIndex("LessonId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.DataSource.Sentence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EnglishSentence")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("TurkishSentence")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sentences");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.DataSource.Word", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("EnglishWord")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("TurkishWord")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Words");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Exam", b =>
@@ -1719,6 +1639,9 @@ namespace LanguageLearning.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -1728,13 +1651,18 @@ namespace LanguageLearning.Migrations
                     b.Property<long?>("LastModifierUserId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("SectionId")
+                    b.Property<int>("LessonId")
                         .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SectionId")
+                    b.HasIndex("LessonId")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Exams");
                 });
@@ -1818,7 +1746,7 @@ namespace LanguageLearning.Migrations
                     b.ToTable("Lessons");
                 });
 
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.InfillQuestion", b =>
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.GramerQuestion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1841,194 +1769,8 @@ namespace LanguageLearning.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("ExamId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("OptionA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionD")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Sentence")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("SectionId");
-
-                    b.ToTable("InfillQuestions");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.SentenceTranslationQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CorrectOption")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ExamId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("OptionA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionD")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Sentence")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("SectionId");
-
-                    b.ToTable("SentenceTranslationQuestions");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.WordTranslationQuestion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CorrectOption")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("ExamId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("OptionA")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OptionD")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SectionId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Word")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExamId");
-
-                    b.HasIndex("SectionId");
-
-                    b.ToTable("WordTranslationQuestions");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Section", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LanguageLevel")
-                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime2");
@@ -2039,14 +1781,212 @@ namespace LanguageLearning.Migrations
                     b.Property<int>("LessonId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("OptionA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Sentence")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("Sections");
+                    b.ToTable("InfillQuestions");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.ListeningQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EnglishSentence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("SentenceTranslationQuestions");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.SpeakingQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EnglishSentence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("Words");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.VocabularyQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CorrectOption")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OptionA")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionB")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OptionD")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Word")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("WordTranslationQuestions");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.WritingQuestion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EnglishSentence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TurkishSentence")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("Sentences");
                 });
 
             modelBuilder.Entity("LanguageLearning.MultiTenancy.Tenant", b =>
@@ -2348,9 +2288,9 @@ namespace LanguageLearning.Migrations
 
             modelBuilder.Entity("LanguageLearning.Domain.Comment", b =>
                 {
-                    b.HasOne("LanguageLearning.Domain.Section", "Section")
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
                         .WithMany("Comments")
-                        .HasForeignKey("SectionId")
+                        .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -2360,20 +2300,28 @@ namespace LanguageLearning.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Section");
+                    b.Navigation("Lesson");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Exam", b =>
                 {
-                    b.HasOne("LanguageLearning.Domain.Section", "Section")
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
                         .WithOne("Exam")
-                        .HasForeignKey("LanguageLearning.Domain.Exam", "SectionId")
+                        .HasForeignKey("LanguageLearning.Domain.Exam", "LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Section");
+                    b.HasOne("LanguageLearning.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Lesson", b =>
@@ -2387,43 +2335,54 @@ namespace LanguageLearning.Migrations
                     b.Navigation("Language");
                 });
 
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.InfillQuestion", b =>
-                {
-                    b.HasOne("LanguageLearning.Domain.Exam", null)
-                        .WithMany("InfillQuestions")
-                        .HasForeignKey("ExamId");
-
-                    b.HasOne("LanguageLearning.Domain.Section", null)
-                        .WithMany("InfillQuestions")
-                        .HasForeignKey("SectionId");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.SentenceTranslationQuestion", b =>
-                {
-                    b.HasOne("LanguageLearning.Domain.Exam", null)
-                        .WithMany("SentenceTranslationQuestions")
-                        .HasForeignKey("ExamId");
-
-                    b.HasOne("LanguageLearning.Domain.Section", null)
-                        .WithMany("SentenceTranslationQuestions")
-                        .HasForeignKey("SectionId");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Questions.WordTranslationQuestion", b =>
-                {
-                    b.HasOne("LanguageLearning.Domain.Exam", null)
-                        .WithMany("WordTranslationsQuestions")
-                        .HasForeignKey("ExamId");
-
-                    b.HasOne("LanguageLearning.Domain.Section", null)
-                        .WithMany("WordTranslationsQuestions")
-                        .HasForeignKey("SectionId");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Section", b =>
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.GramerQuestion", b =>
                 {
                     b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
-                        .WithMany("Sections")
+                        .WithMany("GramerQuestions")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.ListeningQuestion", b =>
+                {
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
+                        .WithMany("ListeningQuestions")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.SpeakingQuestion", b =>
+                {
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
+                        .WithMany("SpeakingQuestions")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.VocabularyQuestion", b =>
+                {
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
+                        .WithMany("VocabularyQuestions")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("LanguageLearning.Domain.Questions.WritingQuestion", b =>
+                {
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
+                        .WithMany("WritingQuestions")
                         .HasForeignKey("LessonId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2544,15 +2503,6 @@ namespace LanguageLearning.Migrations
                     b.Navigation("Tokens");
                 });
 
-            modelBuilder.Entity("LanguageLearning.Domain.Exam", b =>
-                {
-                    b.Navigation("InfillQuestions");
-
-                    b.Navigation("SentenceTranslationQuestions");
-
-                    b.Navigation("WordTranslationsQuestions");
-                });
-
             modelBuilder.Entity("LanguageLearning.Domain.Language", b =>
                 {
                     b.Navigation("Lessons");
@@ -2560,20 +2510,19 @@ namespace LanguageLearning.Migrations
 
             modelBuilder.Entity("LanguageLearning.Domain.Lesson", b =>
                 {
-                    b.Navigation("Sections");
-                });
-
-            modelBuilder.Entity("LanguageLearning.Domain.Section", b =>
-                {
                     b.Navigation("Comments");
 
                     b.Navigation("Exam");
 
-                    b.Navigation("InfillQuestions");
+                    b.Navigation("GramerQuestions");
 
-                    b.Navigation("SentenceTranslationQuestions");
+                    b.Navigation("ListeningQuestions");
 
-                    b.Navigation("WordTranslationsQuestions");
+                    b.Navigation("SpeakingQuestions");
+
+                    b.Navigation("VocabularyQuestions");
+
+                    b.Navigation("WritingQuestions");
                 });
 #pragma warning restore 612, 618
         }
