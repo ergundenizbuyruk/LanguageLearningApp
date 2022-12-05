@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Entities;
 using Abp.Domain.Entities.Auditing;
+using LanguageLearning.Authorization.Users;
 using LanguageLearning.Domain.Questions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,5 +21,7 @@ namespace LanguageLearning.Domain
         public List<SpeakingQuestion> SpeakingQuestions { get; set; }
         public List<Comment> Comments { get; set; }
         public Exam Exam { get; set; }
+        public List<User> Users { get; set; }
+
     }
 }

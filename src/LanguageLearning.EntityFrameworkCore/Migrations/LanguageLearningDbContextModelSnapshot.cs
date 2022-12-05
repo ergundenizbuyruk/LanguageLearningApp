@@ -1987,6 +1987,53 @@ namespace LanguageLearning.Migrations
                     b.ToTable("Sentences");
                 });
 
+            modelBuilder.Entity("LanguageLearning.Domain.UserCurrentLesson", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("CreatorUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeleterUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPassed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long?>("LastModifierUserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserCurrentLessons");
+                });
+
             modelBuilder.Entity("LanguageLearning.MultiTenancy.Tenant", b =>
                 {
                     b.Property<int>("Id")
@@ -2051,19 +2098,19 @@ namespace LanguageLearning.Migrations
                     b.ToTable("AbpTenants");
                 });
 
-            modelBuilder.Entity("LanguageUser", b =>
+            modelBuilder.Entity("LessonUser", b =>
                 {
-                    b.Property<int>("LanguagesId")
+                    b.Property<int>("LessonsId")
                         .HasColumnType("int");
 
                     b.Property<long>("UsersId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("LanguagesId", "UsersId");
+                    b.HasKey("LessonsId", "UsersId");
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("LanguageUser");
+                    b.ToTable("LessonUser");
                 });
 
             modelBuilder.Entity("Abp.Application.Features.EditionFeatureSetting", b =>
@@ -2388,6 +2435,25 @@ namespace LanguageLearning.Migrations
                     b.Navigation("Lesson");
                 });
 
+            modelBuilder.Entity("LanguageLearning.Domain.UserCurrentLesson", b =>
+                {
+                    b.HasOne("LanguageLearning.Domain.Lesson", "Lesson")
+                        .WithMany()
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LanguageLearning.Authorization.Users.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("LanguageLearning.MultiTenancy.Tenant", b =>
                 {
                     b.HasOne("LanguageLearning.Authorization.Users.User", "CreatorUser")
@@ -2415,11 +2481,11 @@ namespace LanguageLearning.Migrations
                     b.Navigation("LastModifierUser");
                 });
 
-            modelBuilder.Entity("LanguageUser", b =>
+            modelBuilder.Entity("LessonUser", b =>
                 {
-                    b.HasOne("LanguageLearning.Domain.Language", null)
+                    b.HasOne("LanguageLearning.Domain.Lesson", null)
                         .WithMany()
-                        .HasForeignKey("LanguagesId")
+                        .HasForeignKey("LessonsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

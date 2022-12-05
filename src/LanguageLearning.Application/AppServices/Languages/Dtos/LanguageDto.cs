@@ -10,7 +10,5 @@ namespace LanguageLearning.AppServices.Languages.Dtos
     public class LanguageDto : EntityDto
     {
         public string Name { get; set; }
-        public List<Lesson> Lessons { get; set; }
-        public List<User> Users { get; set; }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.WritingQuestions.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.WritingQuestions
 {
+    [AbpAuthorize(PermissionNames.Admin)]
     public class WritingQuestionsAppService : IWritingQuestionsAppService
     {
         private readonly IRepository<WritingQuestion> _writingQuestions;
@@ -29,11 +32,10 @@ namespace LanguageLearning.AppServices.WritingQuestions
             var writingQuestionFromDb = await _writingQuestions.InsertAsync(writingQuestion);
             return new WritingQuestionCreateOutputDto
             {
-                
+                Id = writingQuestionFromDb.Id,
                 LessonId = writingQuestionFromDb.LessonId,
                 TurkishSentence=writingQuestionFromDb.TurkishSentence,
                 EnglishSentence=writingQuestionFromDb.EnglishSentence,
-                
             };
         }
 
@@ -42,6 +44,7 @@ namespace LanguageLearning.AppServices.WritingQuestions
         {
             WritingQuestion writingQuestion = new WritingQuestion
             {
+                Id = input.Id,
                 LessonId = input.LessonId,
                 TurkishSentence = input.TurkishSentence,
                 EnglishSentence = input.EnglishSentence,
@@ -50,7 +53,7 @@ namespace LanguageLearning.AppServices.WritingQuestions
             var writingQuestionFromDb = await _writingQuestions.UpdateAsync(writingQuestion);
             return new WritingQuestionCreateOutputDto
             {
-
+                Id = writingQuestionFromDb.Id,
                 LessonId = writingQuestionFromDb.LessonId,
                 TurkishSentence = writingQuestionFromDb.TurkishSentence,
                 EnglishSentence = writingQuestionFromDb.EnglishSentence,

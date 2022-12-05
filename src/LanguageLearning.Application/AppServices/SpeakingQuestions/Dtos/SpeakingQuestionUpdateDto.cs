@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.SpeakingQuestions.Dtos
 {
-    [AutoMap(typeof(SpeakingQuestion))]
     public class SpeakingQuestionUpdateDto : EntityDto
     {
         public int LessonId { get; set; }

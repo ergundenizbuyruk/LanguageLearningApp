@@ -1,12 +1,15 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.SpeakingQuestions.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.SpeakingQuestions
 {
+    [AbpAuthorize(PermissionNames.Admin)]
     public class SpeakingQuestionsAppService : ISpeakingQuestionsAppService
     {
         private readonly IRepository<SpeakingQuestion> _speakingQuestions;
@@ -28,6 +31,7 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
             var speakingQuestionFromDb = await _speakingQuestions.InsertAsync(speakingQuestion);
             return new SpeakingQuestionCreateOutputDto
             {
+                Id = speakingQuestion.Id,
                 LessonId = speakingQuestionFromDb.LessonId,
                 EnglishSentence= speakingQuestionFromDb.EnglishSentence
             };
@@ -38,6 +42,7 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
         {
             SpeakingQuestion speakingQuestion = new SpeakingQuestion
             {
+                Id = input.Id,
                 LessonId = input.LessonId,
                 EnglishSentence=input.EnglishSentence,
             };
@@ -45,7 +50,7 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
             var speakingQuestionFromDb = await _speakingQuestions.UpdateAsync(speakingQuestion);
             return new SpeakingQuestionCreateOutputDto
             {
-                
+                Id = speakingQuestionFromDb.Id,
                 LessonId = speakingQuestionFromDb.LessonId,
                 EnglishSentence=speakingQuestionFromDb.EnglishSentence
                 

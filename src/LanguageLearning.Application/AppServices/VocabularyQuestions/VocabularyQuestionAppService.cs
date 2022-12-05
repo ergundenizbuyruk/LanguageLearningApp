@@ -1,7 +1,9 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.ListeningQuestions.Dtos;
 using LanguageLearning.AppServices.VocabularyQuestions.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.VocabularyQuestions
 {
+    [AbpAuthorize(PermissionNames.Admin)]
     public class VocabularyQuestionAppService : IVocabularyQuestionAppService
     {
         private readonly IRepository<VocabularyQuestion> _vocabularyRepository;

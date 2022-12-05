@@ -3,7 +3,6 @@ using LanguageLearning.Domain.Questions;
 
 namespace LanguageLearning.AppServices.GramerQuestions.Dtos
 {
-    [AutoMap(typeof(GramerQuestion))]
     public class GramerQuestionCreateDto
     {
         public int LessonId { get; set; }

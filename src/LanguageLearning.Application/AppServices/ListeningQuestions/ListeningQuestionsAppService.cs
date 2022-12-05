@@ -1,12 +1,15 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.ListeningQuestions.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.ListeningQuestions
 {
+    [AbpAuthorize(PermissionNames.Admin)]
     public class ListeningQuestionsAppService : IListeningQuestionsAppService
     {
         private readonly IRepository<ListeningQuestion> _listeningQuestions;
@@ -39,6 +42,7 @@ namespace LanguageLearning.AppServices.ListeningQuestions
         {
             ListeningQuestion listeningQuestion = new ListeningQuestion
             {
+                Id = input.Id,
                 LessonId = input.LessonId,
                 EnglishSentence = input.EnglishSentence,
             };

@@ -1,12 +1,15 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.GramerQuestions
 {
+    [AbpAuthorize(PermissionNames.Admin)]
     public class GramerQuestionsAppService : IGramerQuestionsAppService
     {
         private readonly IRepository<GramerQuestion> _gramerQuestions;

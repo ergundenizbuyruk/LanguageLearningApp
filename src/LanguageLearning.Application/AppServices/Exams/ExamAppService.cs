@@ -1,7 +1,9 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using AutoMapper;
 using LanguageLearning.AppServices.Exams.Dtos;
+using LanguageLearning.Authorization;
 using LanguageLearning.Domain;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Exams
 {
+    [AbpAuthorize]
     public class ExamAppService : ApplicationService
     {
         private readonly IRepository<Exam> _examRepository;
@@ -21,7 +24,6 @@ namespace LanguageLearning.AppServices.Exams
         private readonly IRepository<SpeakingQuestion> _speakingQuestion;
         private readonly IRepository<ListeningQuestion> _listeningQuestion;
         private readonly IRepository<VocabularyQuestion> _vocabularyQuestion;
-        private readonly IObjectMapper _mapper;
         Random random = new Random();
 
 
@@ -33,7 +35,6 @@ namespace LanguageLearning.AppServices.Exams
             _speakingQuestion = speakingQuestion;
             _listeningQuestion = listeningQuestion;
             _vocabularyQuestion = vocabularyQuestion;
-            _mapper = mapper;
         }
 
         [HttpGet("{LessonId}")]
@@ -87,7 +88,7 @@ namespace LanguageLearning.AppServices.Exams
         }
 
         [HttpPost]
-        public async Task<ExamCreateOutputDto> Create(ExamCreateDto input)
+        public async Task<ExamCreateOutputDto> ExamResult(ExamCreateDto input)
         {
             Exam exam = new Exam
             {

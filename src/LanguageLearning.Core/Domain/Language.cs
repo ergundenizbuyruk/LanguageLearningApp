@@ -9,7 +9,6 @@ namespace LanguageLearning.Domain
     {
         public string Name { get; set; }
         public List<Lesson> Lessons { get; set; }
-        public List<User> Users { get; set; }
 
     }
 }

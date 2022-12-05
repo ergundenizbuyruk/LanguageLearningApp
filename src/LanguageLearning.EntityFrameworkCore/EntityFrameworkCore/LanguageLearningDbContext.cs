@@ -21,6 +21,7 @@ namespace LanguageLearning.EntityFrameworkCore
         public DbSet<GramerQuestion> InfillQuestions { get; set; }
         public DbSet<ListeningQuestion> SentenceTranslationQuestions { get; set; }
         public DbSet<VocabularyQuestion> WordTranslationQuestions { get; set; }
+        public DbSet<UserCurrentLesson> UserCurrentLessons { get; set; }
         public LanguageLearningDbContext(DbContextOptions<LanguageLearningDbContext> options)
             : base(options)
         {

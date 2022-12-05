@@ -4,7 +4,6 @@ using LanguageLearning.Domain.Questions;
 
 namespace LanguageLearning.AppServices.GramerQuestions.Dtos
 {
-    [AutoMap(typeof(GramerQuestion))]
     public class GramerQuestionUpdateDto : EntityDto
     {
         public int LessonId { get; set; }

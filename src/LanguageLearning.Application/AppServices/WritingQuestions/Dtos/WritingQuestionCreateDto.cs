@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.WritingQuestions.Dtos
 {
-    [AutoMap(typeof(WritingQuestion))]
     public class WritingQuestionCreateDto
     {
         public int LessonId { get; set; }
