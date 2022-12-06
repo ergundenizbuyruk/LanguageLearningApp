@@ -4,7 +4,7 @@ using LanguageLearning.Domain;
 
 namespace LanguageLearning.AppServices.Languages.Dtos
 {
-    [AutoMap(typeof(Language))]
+    [AutoMapFrom(typeof(Language))]
     public class LanguageUpdateDto : EntityDto
     {
         public string Name { get; set; }

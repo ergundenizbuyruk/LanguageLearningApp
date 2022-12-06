@@ -1,7 +1,4 @@
-﻿using Abp.AutoMapper;
-using LanguageLearning.Domain.Questions;
-
-namespace LanguageLearning.AppServices.GramerQuestions.Dtos
+﻿namespace LanguageLearning.AppServices.GramerQuestions.Dtos
 {
     public class GramerQuestionCreateDto
     {

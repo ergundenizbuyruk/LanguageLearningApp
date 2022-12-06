@@ -1798,7 +1798,7 @@ namespace LanguageLearning.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("InfillQuestions");
+                    b.ToTable("GramerQuestions");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Questions.ListeningQuestion", b =>
@@ -1840,7 +1840,7 @@ namespace LanguageLearning.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("SentenceTranslationQuestions");
+                    b.ToTable("ListeningQuestions");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Questions.SpeakingQuestion", b =>
@@ -1882,7 +1882,7 @@ namespace LanguageLearning.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("Words");
+                    b.ToTable("SpeakingQuestions");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Questions.VocabularyQuestion", b =>
@@ -1939,7 +1939,7 @@ namespace LanguageLearning.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("WordTranslationQuestions");
+                    b.ToTable("VocabularyQuestions");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.Questions.WritingQuestion", b =>
@@ -1984,7 +1984,7 @@ namespace LanguageLearning.Migrations
 
                     b.HasIndex("LessonId");
 
-                    b.ToTable("Sentences");
+                    b.ToTable("WritingQuestions");
                 });
 
             modelBuilder.Entity("LanguageLearning.Domain.UserCurrentLesson", b =>

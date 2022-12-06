@@ -1,15 +1,19 @@
 ﻿using Abp.Application.Services.Dto;
-using LanguageLearning.Domain.Questions;
+using LanguageLearning.AppServices.GramerQuestions.Dtos;
+using LanguageLearning.AppServices.ListeningQuestions.Dtos;
+using LanguageLearning.AppServices.SpeakingQuestions.Dtos;
+using LanguageLearning.AppServices.VocabularyQuestions.Dtos;
+using LanguageLearning.AppServices.WritingQuestions.Dtos;
 using System.Collections.Generic;
 
 namespace LanguageLearning.AppServices.Exams.Dtos
 {
     public class ExamDto : EntityDto
     {
-        public List<GramerQuestion> GramerQuestions { get; set; } = new List<GramerQuestion>();
-        public List<ListeningQuestion> ListeningQuestions { get; set; } = new List<ListeningQuestion>();
-        public List<VocabularyQuestion> VocabularyQuestions { get; set; } = new List<VocabularyQuestion>();
-        public List<WritingQuestion> WritingQuestions { get; set; } = new List<WritingQuestion>();
-        public List<SpeakingQuestion> SpeakingQuestions { get; set; } = new List<SpeakingQuestion>();
+        public List<GramerQuestionDto> GramerQuestions { get; set; } = new List<GramerQuestionDto>();
+        public List<ListeningQuestionDto> ListeningQuestions { get; set; } = new List<ListeningQuestionDto>();
+        public List<VocabularyQuestionDto> VocabularyQuestions { get; set; } = new List<VocabularyQuestionDto>();
+        public List<WritingQuestionDto> WritingQuestions { get; set; } = new List<WritingQuestionDto>();
+        public List<SpeakingQuestionDto> SpeakingQuestions { get; set; } = new List<SpeakingQuestionDto>();
     }
 }

@@ -1,15 +1,16 @@
 ﻿using Abp.Application.Services.Dto;
 using Abp.AutoMapper;
-using LanguageLearning.Authorization.Users;
+using LanguageLearning.AppServices.Lessons.Dtos;
 using LanguageLearning.Domain;
+using LanguageLearning.Users.Dto;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
-    [AutoMap(typeof(Comment))]
+    [AutoMapFrom(typeof(Comment))]
     public class CommentDto : EntityDto
     {
-        public Lesson Lesson { get; set; }
-        public User User { get; set; }
+        public LessonWithAllQuestionsDto Lesson { get; set; }
+        public UserDto User { get; set; }
         public string Content { get; set; }
         public int Rate { get; set; }
     }

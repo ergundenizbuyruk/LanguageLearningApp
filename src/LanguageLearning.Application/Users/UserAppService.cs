@@ -12,6 +12,7 @@ using Abp.UI;
 using LanguageLearning.Authorization;
 using LanguageLearning.Authorization.Roles;
 using LanguageLearning.Authorization.Users;
+using LanguageLearning.Domain;
 using LanguageLearning.Roles.Dto;
 using LanguageLearning.Users.Dto;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,8 @@ namespace LanguageLearning.Users
         private readonly IPasswordHasher<User> _passwordHasher;
         private readonly IAbpSession _abpSession;
         private readonly LogInManager _logInManager;
+        private readonly IRepository<Lesson> _lessonRepository;
+        private readonly IRepository<UserCurrentLesson> _userCurrentRepository;
 
         public UserAppService(
             IRepository<User, long> repository,
@@ -40,7 +43,9 @@ namespace LanguageLearning.Users
             IRepository<Role> roleRepository,
             IPasswordHasher<User> passwordHasher,
             IAbpSession abpSession,
-            LogInManager logInManager)
+            LogInManager logInManager,
+            IRepository<Lesson> lessonRepository,
+            IRepository<UserCurrentLesson> userCurrentRepository)
             : base(repository)
         {
             _userManager = userManager;
@@ -49,6 +54,8 @@ namespace LanguageLearning.Users
             _passwordHasher = passwordHasher;
             _abpSession = abpSession;
             _logInManager = logInManager;
+            _lessonRepository = lessonRepository;
+            _userCurrentRepository = userCurrentRepository;
         }
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
@@ -63,6 +70,12 @@ namespace LanguageLearning.Users
             user.IsEmailConfirmed = true;
 
             //await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
+            var allLessons = _lessonRepository.GetAll().ToList();
+
+            if (input.RoleName.Equals("Student"))
+            {
+                user.Lessons = allLessons;
+            }
 
             CheckErrors(await _userManager.CreateAsync(user, input.Password));
 
@@ -74,7 +87,20 @@ namespace LanguageLearning.Users
                 CheckErrors(await _userManager.SetRolesAsync(user, roleNames));
             }
 
+            foreach (var lesson in allLessons)
+            {
+                var userCurrentLesson = new UserCurrentLesson
+                {
+                    UserId = user.Id,
+                    LessonId = lesson.Id,
+                    IsPassed = false,
+                };
+                await _userCurrentRepository.InsertAsync(userCurrentLesson);
+            }
+
             CurrentUnitOfWork.SaveChanges();
+
+
 
             return MapToEntityDto(user);
         }

@@ -1,6 +1,4 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
-using LanguageLearning.Authorization.Users;
+﻿using Abp.Domain.Entities.Auditing;
 using System.Collections.Generic;
 
 namespace LanguageLearning.Domain

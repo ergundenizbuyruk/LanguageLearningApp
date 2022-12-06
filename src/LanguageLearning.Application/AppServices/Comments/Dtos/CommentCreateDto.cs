@@ -3,7 +3,7 @@ using LanguageLearning.Domain;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
-    [AutoMap(typeof(Comment))]
+    [AutoMapFrom(typeof(Comment))]
     public class CommentCreateDto
     {
         public int UserId { get; set; }

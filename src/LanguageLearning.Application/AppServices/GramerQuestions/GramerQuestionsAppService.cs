@@ -47,7 +47,7 @@ namespace LanguageLearning.AppServices.GramerQuestions
             };
         }
 
-        [HttpPatch]
+        [HttpPut]
         public async Task<GramerQuestionCreateOutputDto> Update(GramerQuestionUpdateDto input)
         {
             GramerQuestion gramerQuestion = new GramerQuestion

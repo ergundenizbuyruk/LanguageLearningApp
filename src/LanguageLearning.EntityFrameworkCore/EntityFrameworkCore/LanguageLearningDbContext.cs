@@ -16,11 +16,11 @@ namespace LanguageLearning.EntityFrameworkCore
         public DbSet<Exam> Exams { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
-        public DbSet<WritingQuestion> Sentences { get; set; }
-        public DbSet<SpeakingQuestion> Words { get; set; }
-        public DbSet<GramerQuestion> InfillQuestions { get; set; }
-        public DbSet<ListeningQuestion> SentenceTranslationQuestions { get; set; }
-        public DbSet<VocabularyQuestion> WordTranslationQuestions { get; set; }
+        public DbSet<WritingQuestion> WritingQuestions { get; set; }
+        public DbSet<SpeakingQuestion> SpeakingQuestions { get; set; }
+        public DbSet<GramerQuestion> GramerQuestions { get; set; }
+        public DbSet<ListeningQuestion> ListeningQuestions { get; set; }
+        public DbSet<VocabularyQuestion> VocabularyQuestions { get; set; }
         public DbSet<UserCurrentLesson> UserCurrentLessons { get; set; }
         public LanguageLearningDbContext(DbContextOptions<LanguageLearningDbContext> options)
             : base(options)

@@ -33,18 +33,18 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
             {
                 Id = speakingQuestion.Id,
                 LessonId = speakingQuestionFromDb.LessonId,
-                EnglishSentence= speakingQuestionFromDb.EnglishSentence
+                EnglishSentence = speakingQuestionFromDb.EnglishSentence
             };
         }
 
-        [HttpPatch]
+        [HttpPut]
         public async Task<SpeakingQuestionCreateOutputDto> Update(SpeakingQuestionUpdateDto input)
         {
             SpeakingQuestion speakingQuestion = new SpeakingQuestion
             {
                 Id = input.Id,
                 LessonId = input.LessonId,
-                EnglishSentence=input.EnglishSentence,
+                EnglishSentence = input.EnglishSentence,
             };
 
             var speakingQuestionFromDb = await _speakingQuestions.UpdateAsync(speakingQuestion);
@@ -52,8 +52,8 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
             {
                 Id = speakingQuestionFromDb.Id,
                 LessonId = speakingQuestionFromDb.LessonId,
-                EnglishSentence=speakingQuestionFromDb.EnglishSentence
-                
+                EnglishSentence = speakingQuestionFromDb.EnglishSentence
+
             };
         }
 

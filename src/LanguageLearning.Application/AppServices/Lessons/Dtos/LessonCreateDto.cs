@@ -3,9 +3,10 @@ using LanguageLearning.Domain;
 
 namespace LanguageLearning.AppServices.Lessons.Dtos
 {
-    [AutoMap(typeof(Lesson))]
+    [AutoMapFrom(typeof(Lesson))]
     public class LessonCreateDto
     {
         public string Name { get; set; }
+        public int LanguageId { get; set; }
     }
 }

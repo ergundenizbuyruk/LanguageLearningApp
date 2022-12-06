@@ -1,12 +1,4 @@
-﻿using Abp.AutoMapper;
-using LanguageLearning.Domain.Questions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LanguageLearning.AppServices.WritingQuestions.Dtos
+﻿namespace LanguageLearning.AppServices.WritingQuestions.Dtos
 {
     public class WritingQuestionCreateDto
     {

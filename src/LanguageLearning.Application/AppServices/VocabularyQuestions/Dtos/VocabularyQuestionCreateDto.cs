@@ -1,7 +1,4 @@
-﻿using LanguageLearning.Domain;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace LanguageLearning.AppServices.VocabularyQuestions.Dtos
+﻿namespace LanguageLearning.AppServices.VocabularyQuestions.Dtos
 {
     public class VocabularyQuestionCreateDto
     {

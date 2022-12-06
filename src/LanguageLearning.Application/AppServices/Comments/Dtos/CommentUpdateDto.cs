@@ -4,7 +4,7 @@ using LanguageLearning.Domain;
 
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
-    [AutoMap(typeof(Comment))]
+    [AutoMapFrom(typeof(Comment))]
     public class CommentUpdateDto : EntityDto
     {
         public string Content { get; set; }

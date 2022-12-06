@@ -1,11 +1,9 @@
 ﻿using Abp.Application.Services;
-using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.Comments.Dtos;
 using LanguageLearning.Authorization;
 using LanguageLearning.Domain;
 using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Comments
 {

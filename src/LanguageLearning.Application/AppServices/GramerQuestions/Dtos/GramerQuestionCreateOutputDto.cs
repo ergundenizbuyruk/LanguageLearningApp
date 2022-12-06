@@ -1,6 +1,4 @@
 ﻿using Abp.Application.Services.Dto;
-using Abp.AutoMapper;
-using LanguageLearning.Domain.Questions;
 
 namespace LanguageLearning.AppServices.GramerQuestions.Dtos
 {

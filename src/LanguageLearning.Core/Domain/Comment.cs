@@ -1,5 +1,4 @@
-﻿using Abp.Domain.Entities;
-using Abp.Domain.Entities.Auditing;
+﻿using Abp.Domain.Entities.Auditing;
 using LanguageLearning.Authorization.Users;
 using System;
 using System.ComponentModel.DataAnnotations;

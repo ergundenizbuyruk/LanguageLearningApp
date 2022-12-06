@@ -15,7 +15,7 @@ namespace LanguageLearning.Authorization
 
             context.CreatePermission(PermissionNames.Admin, L("Admins"), multiTenancySides: MultiTenancySides.Host);
             context.CreatePermission(PermissionNames.Student, L("Students"), multiTenancySides: MultiTenancySides.Host);
-    }
+        }
 
         private static ILocalizableString L(string name)
         {

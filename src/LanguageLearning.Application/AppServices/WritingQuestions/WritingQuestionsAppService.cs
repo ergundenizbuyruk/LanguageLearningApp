@@ -34,12 +34,12 @@ namespace LanguageLearning.AppServices.WritingQuestions
             {
                 Id = writingQuestionFromDb.Id,
                 LessonId = writingQuestionFromDb.LessonId,
-                TurkishSentence=writingQuestionFromDb.TurkishSentence,
-                EnglishSentence=writingQuestionFromDb.EnglishSentence,
+                TurkishSentence = writingQuestionFromDb.TurkishSentence,
+                EnglishSentence = writingQuestionFromDb.EnglishSentence,
             };
         }
 
-        [HttpPatch]
+        [HttpPut]
         public async Task<WritingQuestionCreateOutputDto> Update(WritingQuestionUpdateDto input)
         {
             WritingQuestion writingQuestion = new WritingQuestion

@@ -59,10 +59,9 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
             var permissions = PermissionFinder
                 .GetAllPermissions(new LanguageLearningAuthorizationProvider())
                 .Where(p => p.MultiTenancySides.HasFlag(MultiTenancySides.Host) &&
-                            !grantedPermissions.Contains(p.Name))
+                            !grantedPermissions.Contains(p.Name) && p.Name != PermissionNames.Student)
                 .ToList();
 
-            var studentRoleId = _context.Roles.Where(u => u.DisplayName.Equals("Student")).First().Id;
 
             if (permissions.Any())
             {
@@ -72,9 +71,26 @@ namespace LanguageLearning.EntityFrameworkCore.Seed.Host
                         TenantId = null,
                         Name = permission.Name,
                         IsGranted = true,
-                        RoleId = permission.Name == "Student" ? studentRoleId : adminRoleForHost.Id
+                        RoleId = adminRoleForHost.Id
                     })
                 );
+                _context.SaveChanges();
+            }
+
+            // Add student permission for host
+            var studentRoleId = _context.Roles.Where(u => u.Name.Equals(PermissionNames.Student)).First().Id;
+
+            var permissionsStudent = _context.Permissions.Where(p => p.Name == PermissionNames.Student).ToList();
+
+            if (!permissionsStudent.Any())
+            {
+                _context.Permissions.Add(new RolePermissionSetting
+                {
+                    TenantId = null,
+                    Name = PermissionNames.Student,
+                    IsGranted = true,
+                    RoleId = studentRoleId,
+                });
                 _context.SaveChanges();
             }
 

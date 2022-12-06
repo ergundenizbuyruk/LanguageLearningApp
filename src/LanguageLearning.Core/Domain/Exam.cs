@@ -1,5 +1,4 @@
-﻿using Abp.AutoMapper;
-using Abp.Domain.Entities.Auditing;
+﻿using Abp.Domain.Entities.Auditing;
 using LanguageLearning.Authorization.Users;
 using System.ComponentModel.DataAnnotations.Schema;
 

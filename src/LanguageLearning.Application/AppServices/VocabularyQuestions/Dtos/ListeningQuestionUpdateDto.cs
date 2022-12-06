@@ -1,6 +1,4 @@
 ﻿using Abp.Application.Services.Dto;
-using LanguageLearning.Domain;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LanguageLearning.AppServices.VocabularyQuestions.Dtos
 {

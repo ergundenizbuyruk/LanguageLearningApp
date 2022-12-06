@@ -1,9 +1,12 @@
 ﻿using Abp.Application.Services;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
-using AutoMapper;
 using LanguageLearning.AppServices.Exams.Dtos;
-using LanguageLearning.Authorization;
+using LanguageLearning.AppServices.GramerQuestions.Dtos;
+using LanguageLearning.AppServices.ListeningQuestions.Dtos;
+using LanguageLearning.AppServices.SpeakingQuestions.Dtos;
+using LanguageLearning.AppServices.VocabularyQuestions.Dtos;
+using LanguageLearning.AppServices.WritingQuestions.Dtos;
 using LanguageLearning.Domain;
 using LanguageLearning.Domain.Questions;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +30,9 @@ namespace LanguageLearning.AppServices.Exams
         Random random = new Random();
 
 
-        public ExamAppService(IRepository<Exam> examRepository, IRepository<GramerQuestion> gramerQuestion, IRepository<WritingQuestion> writingQuestion, IRepository<SpeakingQuestion> speakingQuestion, IRepository<ListeningQuestion> listeningQuestion, IRepository<VocabularyQuestion> vocabularyQuestion, IObjectMapper mapper)
+        public ExamAppService(IRepository<Exam> examRepository, IRepository<GramerQuestion> gramerQuestion,
+            IRepository<WritingQuestion> writingQuestion, IRepository<SpeakingQuestion> speakingQuestion,
+            IRepository<ListeningQuestion> listeningQuestion, IRepository<VocabularyQuestion> vocabularyQuestion)
         {
             _examRepository = examRepository;
             _gramerQuestion = gramerQuestion;
@@ -41,12 +46,46 @@ namespace LanguageLearning.AppServices.Exams
         public async Task<ExamDto> GetExamByLesson(int LessonId)
         {
 
-            List<GramerQuestion> GramerQuestions = _gramerQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList();
-            List<WritingQuestion> WritingQuestions = _writingQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList();
-            List<SpeakingQuestion> SpeakingQuestions = _speakingQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList();
-            List<ListeningQuestion> ListeningQuestions = _listeningQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList();
-            List<VocabularyQuestion> VocabularyQuestions = _vocabularyQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList();
+            List<GramerQuestionDto> GramerQuestions = _gramerQuestion.GetAll().Where(p => p.LessonId == LessonId)
+                .ToList().Select(u => new GramerQuestionDto
+                {
+                    Sentence = u.Sentence,
+                    OptionA = u.OptionA,
+                    OptionB = u.OptionB,
+                    OptionC = u.OptionC,
+                    OptionD = u.OptionD,
+                    CorrectOption = u.CorrectOption,
+                }).ToList();
 
+            List<WritingQuestionDto> WritingQuestions = _writingQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList()
+                .ToList().Select(u => new WritingQuestionDto
+                {
+                    EnglishSentence = u.EnglishSentence,
+                    TurkishSentence = u.TurkishSentence,
+                }).ToList();
+
+            List<SpeakingQuestionDto> SpeakingQuestions = _speakingQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList()
+                .ToList().Select(u => new SpeakingQuestionDto
+                {
+                    EnglishSentence = u.EnglishSentence,
+                }).ToList();
+
+            List<ListeningQuestionDto> ListeningQuestions = _listeningQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList()
+                .ToList().Select(u => new ListeningQuestionDto
+                {
+                    EnglishSentence = u.EnglishSentence,
+                }).ToList();
+
+            List<VocabularyQuestionDto> VocabularyQuestions = _vocabularyQuestion.GetAll().Where(p => p.LessonId == LessonId).ToList()
+                .ToList().Select(u => new VocabularyQuestionDto
+                {
+                    Word = u.Word,
+                    OptionA = u.OptionA,
+                    OptionB = u.OptionB,
+                    OptionC = u.OptionC,
+                    OptionD = u.OptionD,
+                    CorrectOption = u.CorrectOption,
+                }).ToList();
             ExamDto examDto = new ExamDto();
 
             int r = random.Next(GramerQuestions.Count);

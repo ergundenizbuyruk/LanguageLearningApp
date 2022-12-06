@@ -37,7 +37,7 @@ namespace LanguageLearning.AppServices.ListeningQuestions
             };
         }
 
-        [HttpPatch]
+        [HttpPut]
         public async Task<ListeningQuestionCreateOutputDto> Update(ListeningQuestionUpdateDto input)
         {
             ListeningQuestion listeningQuestion = new ListeningQuestion
