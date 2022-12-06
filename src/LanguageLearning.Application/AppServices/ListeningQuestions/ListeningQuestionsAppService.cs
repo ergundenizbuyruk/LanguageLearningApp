@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.ListeningQuestions
 {
     [AbpAuthorize(PermissionNames.Admin)]
-    public class ListeningQuestionsAppService : IListeningQuestionsAppService
+    public class ListeningQuestionsAppService : ApplicationService
     {
         private readonly IRepository<ListeningQuestion> _listeningQuestions;
 
@@ -29,6 +29,8 @@ namespace LanguageLearning.AppServices.ListeningQuestions
             };
 
             var listeningQuestionFromDb = await _listeningQuestions.InsertAsync(listeningQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new ListeningQuestionCreateOutputDto
             {
                 Id = listeningQuestionFromDb.Id,
@@ -40,14 +42,12 @@ namespace LanguageLearning.AppServices.ListeningQuestions
         [HttpPut]
         public async Task<ListeningQuestionCreateOutputDto> Update(ListeningQuestionUpdateDto input)
         {
-            ListeningQuestion listeningQuestion = new ListeningQuestion
-            {
-                Id = input.Id,
-                LessonId = input.LessonId,
-                EnglishSentence = input.EnglishSentence,
-            };
+            var listeningQuestion = await _listeningQuestions.GetAsync(input.Id);
+            listeningQuestion.EnglishSentence= input.EnglishSentence;
 
             var listeningQuestionFromDb = await _listeningQuestions.UpdateAsync(listeningQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new ListeningQuestionCreateOutputDto
             {
                 Id = listeningQuestionFromDb.Id,
@@ -63,5 +63,4 @@ namespace LanguageLearning.AppServices.ListeningQuestions
         }
     }
 
-    public interface IListeningQuestionsAppService : IApplicationService { }
 }

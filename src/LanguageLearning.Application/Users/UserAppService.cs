@@ -69,13 +69,11 @@ namespace LanguageLearning.Users
             user.TenantId = AbpSession.TenantId;
             user.IsEmailConfirmed = true;
 
-            //await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
-            var allLessons = _lessonRepository.GetAll().ToList();
+            await _userManager.InitializeOptionsAsync(AbpSession.TenantId);
+            var allLessons = await _lessonRepository.GetAllListAsync();
 
-            if (input.RoleName.Equals("Student"))
-            {
-                user.Lessons = allLessons;
-            }
+
+            user.Lessons = allLessons;
 
             CheckErrors(await _userManager.CreateAsync(user, input.Password));
 
@@ -100,14 +98,14 @@ namespace LanguageLearning.Users
 
             CurrentUnitOfWork.SaveChanges();
 
-
-
             return MapToEntityDto(user);
         }
         [AbpAuthorize]
         public override async Task<UserDto> UpdateAsync(UserDto input)
         {
-            CheckUpdatePermission();
+            input.IsActive = true;
+            input.RoleName = PermissionNames.Student;
+            //CheckUpdatePermission();
 
             var user = await _userManager.GetUserByIdAsync(input.Id);
 

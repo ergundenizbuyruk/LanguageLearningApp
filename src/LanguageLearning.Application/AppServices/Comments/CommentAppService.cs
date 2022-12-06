@@ -1,26 +1,107 @@
 ﻿using Abp.Application.Services;
+using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.Comments.Dtos;
 using LanguageLearning.Authorization;
 using LanguageLearning.Domain;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Dynamic.Core;
+using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Comments
 {
-    [Authorize]
-    public class CommentAppService : AsyncCrudAppService<Comment, CommentDto, int, CommentDto, CommentCreateDto, CommentUpdateDto>, ICommentAppService
+    [AbpAuthorize]
+    public class CommentAppService : ApplicationService
+
+
     {
-        public CommentAppService(IRepository<Comment, int> repository) : base(repository)
+
+        private readonly IRepository<Comment> _commentRepository;
+
+
+        public CommentAppService(IRepository<Comment> commentRepository)
         {
+            _commentRepository = commentRepository;
         }
 
-        protected override string CreatePermissionName { get; set; } = PermissionNames.Student;
 
-        protected override string UpdatePermissionName { get; set; } = PermissionNames.Student;
-    }
+        [HttpGet]
+        public async Task<CommentDto> GetAsync(int id)
+        {
+            var comment = await _commentRepository.GetAsync(id);
+            return new CommentDto
+            {
+                Content = comment.Content,
+                Rate = comment.Rate,
+                Id = comment.Id,
+                UserId = comment.UserId,
+                LessonId = comment.LessonId,
+            };
+        }
+        [HttpGet]
+        public async Task<List<CommentDto>> GetAllAsync()
+        {
+            return _commentRepository.GetAllListAsync().Result.Select(u => new CommentDto
+            {
+                Content = u.Content,
+                Rate = u.Rate,
+                Id = u.Id,
+                UserId = u.UserId,
+                LessonId = u.LessonId,
+            }).ToList();
 
-    public interface ICommentAppService : IAsyncCrudAppService<CommentDto, int, CommentDto, CommentCreateDto, CommentUpdateDto>
-    {
+        }
 
+        [HttpPost]
+        [AbpAuthorize(PermissionNames.Student)]
+        public async Task<CommentCreateOutputDto> CreateAsync(CommentCreateDto input)
+        {
+            Comment comment = new Comment
+            {
+                LessonId = input.LessonId,
+                Content = input.Content,
+                Rate = input.Rate,
+                UserId = (long) AbpSession.UserId
+            };
+
+            var commentFromDb = await _commentRepository.InsertAsync(comment);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return new CommentCreateOutputDto
+            {
+                Id = commentFromDb.Id,
+                LessonId = commentFromDb.LessonId,
+                Content = commentFromDb.Content,
+                Rate = commentFromDb.Rate,
+            };
+
+        }
+        [HttpPut]
+        [AbpAuthorize(PermissionNames.Student)]
+        public async Task<CommentCreateOutputDto> UpdateAsync(CommentUpdateDto input)
+        {
+            var comment = await _commentRepository.GetAsync(input.Id);
+            comment.Content = input.Content;
+            comment.Rate = input.Rate;
+
+            var commentFromDb = await _commentRepository.UpdateAsync(comment);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return new CommentCreateOutputDto
+            {
+                Id = commentFromDb.Id,
+                LessonId = commentFromDb.LessonId,
+                Content = commentFromDb.Content,
+                Rate = commentFromDb.Rate
+            };
+
+        }
+        [HttpDelete]
+        public async Task DeleteAsync(int id)
+        {
+            await _commentRepository.DeleteAsync(id);
+        }
     }
 }

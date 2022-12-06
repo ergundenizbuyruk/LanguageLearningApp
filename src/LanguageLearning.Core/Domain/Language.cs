@@ -1,4 +1,5 @@
-﻿using Abp.Domain.Entities.Auditing;
+﻿using Abp.AutoMapper;
+using Abp.Domain.Entities.Auditing;
 using System.Collections.Generic;
 
 namespace LanguageLearning.Domain

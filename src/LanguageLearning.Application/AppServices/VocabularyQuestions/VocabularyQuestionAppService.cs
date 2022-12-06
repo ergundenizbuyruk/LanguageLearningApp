@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.VocabularyQuestions
 {
     [AbpAuthorize(PermissionNames.Admin)]
-    public class VocabularyQuestionAppService : IVocabularyQuestionAppService
+    public class VocabularyQuestionAppService : ApplicationService
     {
         private readonly IRepository<VocabularyQuestion> _vocabularyRepository;
 
@@ -34,6 +34,8 @@ namespace LanguageLearning.AppServices.VocabularyQuestions
             };
 
             var vocabularyQuestionFromDb = await _vocabularyRepository.InsertAsync(vocabularyQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new VocabularyQuestionCreateOutputDto
             {
                 Id = vocabularyQuestionFromDb.Id,
@@ -50,19 +52,17 @@ namespace LanguageLearning.AppServices.VocabularyQuestions
         [HttpPut]
         public async Task<VocabularyQuestionCreateOutputDto> Update(VocabularyQuestionUpdateDto input)
         {
-            VocabularyQuestion vocabularyQuestion = new VocabularyQuestion
-            {
-                Id = input.Id,
-                LessonId = input.LessonId,
-                Word = input.Word,
-                OptionA = input.OptionA,
-                OptionB = input.OptionB,
-                OptionC = input.OptionC,
-                OptionD = input.OptionD,
-                CorrectOption = input.CorrectOption
-            };
+            VocabularyQuestion vocabularyQuestion = await _vocabularyRepository.GetAsync(input.Id);
+            vocabularyQuestion.Word= input.Word;
+            vocabularyQuestion.OptionA= input.OptionA;
+            vocabularyQuestion.OptionB= input.OptionB;
+            vocabularyQuestion.OptionC= input.OptionC;
+            vocabularyQuestion.OptionD= input.OptionD;
+            vocabularyQuestion.CorrectOption= input.CorrectOption;
 
             var vocabularyQuestionFromDb = await _vocabularyRepository.UpdateAsync(vocabularyQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new VocabularyQuestionCreateOutputDto
             {
                 Id = vocabularyQuestionFromDb.Id,
@@ -77,11 +77,10 @@ namespace LanguageLearning.AppServices.VocabularyQuestions
         }
 
         [HttpDelete]
-        public async Task Delete(int input)
+        public async Task Delete(int id)
         {
-            await _vocabularyRepository.DeleteAsync(input);
+            await _vocabularyRepository.DeleteAsync(id);
         }
     }
 
-    public interface IVocabularyQuestionAppService : IApplicationService { }
 }

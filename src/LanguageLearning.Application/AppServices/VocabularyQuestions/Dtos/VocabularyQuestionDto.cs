@@ -3,7 +3,6 @@ using LanguageLearning.Domain.Questions;
 
 namespace LanguageLearning.AppServices.VocabularyQuestions.Dtos
 {
-    [AutoMapFrom(typeof(VocabularyQuestion))]
     public class VocabularyQuestionDto
     {
         public string Word { get; set; }

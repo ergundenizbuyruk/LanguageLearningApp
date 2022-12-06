@@ -1,4 +1,5 @@
 ﻿using Abp.Application.Services;
+using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
 using LanguageLearning.AppServices.Languages.Dtos;
@@ -8,7 +9,7 @@ using LanguageLearning.Domain;
 namespace LanguageLearning.AppServices.Languages
 {
     [AbpAuthorize]
-    public class LanguageAppService : AsyncCrudAppService<Language, LanguageDto, int, LanguageDto, LanguageCreateDto, LanguageUpdateDto>, ILanguageAppService
+    public class LanguageAppService : AsyncCrudAppService<Language, LanguageDto, int, PagedAndSortedResultRequestDto, LanguageCreateDto, LanguageUpdateDto>, ILanguageAppService
     {
         public LanguageAppService(IRepository<Language, int> repository) : base(repository)
         {
@@ -20,5 +21,5 @@ namespace LanguageLearning.AppServices.Languages
         protected override string UpdatePermissionName { get; set; } = PermissionNames.Admin;
     }
 
-    public interface ILanguageAppService : IAsyncCrudAppService<LanguageDto, int, LanguageDto, LanguageCreateDto, LanguageUpdateDto> { }
+    public interface ILanguageAppService : IAsyncCrudAppService<LanguageDto, int, PagedAndSortedResultRequestDto, LanguageCreateDto, LanguageUpdateDto> { }
 }

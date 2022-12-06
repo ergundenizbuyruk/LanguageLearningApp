@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.GramerQuestions
 {
     [AbpAuthorize(PermissionNames.Admin)]
-    public class GramerQuestionsAppService : IGramerQuestionsAppService
+    public class GramerQuestionsAppService : ApplicationService
     {
         private readonly IRepository<GramerQuestion> _gramerQuestions;
 
@@ -34,9 +34,11 @@ namespace LanguageLearning.AppServices.GramerQuestions
             };
 
             var gramerQuestionFromDb = await _gramerQuestions.InsertAsync(gramerQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+            
             return new GramerQuestionCreateOutputDto
             {
-                Id = gramerQuestion.Id,
+                Id = gramerQuestionFromDb.Id,
                 LessonId = gramerQuestionFromDb.LessonId,
                 Sentence = gramerQuestionFromDb.Sentence,
                 OptionA = gramerQuestionFromDb.OptionA,
@@ -50,22 +52,20 @@ namespace LanguageLearning.AppServices.GramerQuestions
         [HttpPut]
         public async Task<GramerQuestionCreateOutputDto> Update(GramerQuestionUpdateDto input)
         {
-            GramerQuestion gramerQuestion = new GramerQuestion
-            {
-                Id = input.Id,
-                LessonId = input.LessonId,
-                Sentence = input.Sentence,
-                OptionA = input.OptionA,
-                OptionB = input.OptionB,
-                OptionC = input.OptionC,
-                OptionD = input.OptionD,
-                CorrectOption = input.CorrectOption
-            };
+            var gramerQuestion = await _gramerQuestions.GetAsync(input.Id);
+            gramerQuestion.Sentence= input.Sentence;
+            gramerQuestion.OptionA= input.OptionA;
+            gramerQuestion.OptionB= input.OptionB;
+            gramerQuestion.OptionC= input.OptionC;
+            gramerQuestion.OptionD= input.OptionD;
+            gramerQuestion.CorrectOption = input.CorrectOption;
 
             var gramerQuestionFromDb = await _gramerQuestions.UpdateAsync(gramerQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new GramerQuestionCreateOutputDto
             {
-                Id = gramerQuestion.Id,
+                Id = gramerQuestionFromDb.Id,
                 LessonId = gramerQuestionFromDb.LessonId,
                 Sentence = gramerQuestionFromDb.Sentence,
                 OptionA = gramerQuestionFromDb.OptionA,
@@ -77,12 +77,11 @@ namespace LanguageLearning.AppServices.GramerQuestions
         }
 
         [HttpDelete]
-        public async Task Delete(int input)
+        public async Task Delete(int id)
         {
-            await _gramerQuestions.DeleteAsync(input);
+            await _gramerQuestions.DeleteAsync(id);
         }
 
     }
 
-    public interface IGramerQuestionsAppService : IApplicationService { }
 }

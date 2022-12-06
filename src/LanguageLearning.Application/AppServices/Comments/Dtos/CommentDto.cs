@@ -7,10 +7,11 @@ using LanguageLearning.Users.Dto;
 namespace LanguageLearning.AppServices.Comments.Dtos
 {
     [AutoMapFrom(typeof(Comment))]
+    [AutoMapTo(typeof(Comment))]
     public class CommentDto : EntityDto
     {
-        public LessonWithAllQuestionsDto Lesson { get; set; }
-        public UserDto User { get; set; }
+        public int LessonId { get; set; }
+        public long UserId { get; set; }
         public string Content { get; set; }
         public int Rate { get; set; }
     }

@@ -2,6 +2,7 @@
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.UI;
 using AutoMapper;
 using LanguageLearning.AppServices.Comments.Dtos;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
@@ -13,10 +14,12 @@ using LanguageLearning.AppServices.WritingQuestions.Dtos;
 using LanguageLearning.Authorization.Users;
 using LanguageLearning.Domain;
 using LanguageLearning.Domain.Questions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Lessons
@@ -94,6 +97,7 @@ namespace LanguageLearning.AppServices.Lessons
                 };
                 await _userCurrentLesson.InsertAsync(userCurrentLesson);
             }
+            await CurrentUnitOfWork.SaveChangesAsync();
 
             return new LessonWithoutQuestionsDto
             {
@@ -145,11 +149,16 @@ namespace LanguageLearning.AppServices.Lessons
                     CorrectOption = u.CorrectOption,
                 }).ToList();
 
-            Lesson lesson = await _lessonRepository.GetAll().Include(p => p.Comments)
+            Lesson lesson = await _lessonRepository.GetAll().Include(p => p.Comments).ThenInclude(p => p.User)
                 .Where(p => p.Id == input.Id).FirstOrDefaultAsync();
 
             LessonWithAllQuestionsDto lessonWithAllQuestionsDto = new LessonWithAllQuestionsDto();
 
+                
+            if (GramerQuestions.Count < 2 || WritingQuestions.Count < 2 || SpeakingQuestions.Count < 2 || ListeningQuestions.Count < 2 || GramerQuestions.Count < 2 || VocabularyQuestions.Count < 2)
+            {
+                throw new UserFriendlyException("Bu lessonu sorularıyla beraber alabilmek için bütün tipte sorulardan en az ikişer tane olmalıdır.");
+            }
             int r = random.Next(GramerQuestions.Count);
             lessonWithAllQuestionsDto.GramerQuestions.Add(GramerQuestions[r]);
             GramerQuestions.RemoveAt(r);

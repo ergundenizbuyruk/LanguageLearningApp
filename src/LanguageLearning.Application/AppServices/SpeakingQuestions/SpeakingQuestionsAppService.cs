@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.SpeakingQuestions
 {
     [AbpAuthorize(PermissionNames.Admin)]
-    public class SpeakingQuestionsAppService : ISpeakingQuestionsAppService
+    public class SpeakingQuestionsAppService : ApplicationService
     {
         private readonly IRepository<SpeakingQuestion> _speakingQuestions;
 
@@ -29,9 +29,11 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
             };
 
             var speakingQuestionFromDb = await _speakingQuestions.InsertAsync(speakingQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new SpeakingQuestionCreateOutputDto
             {
-                Id = speakingQuestion.Id,
+                Id = speakingQuestionFromDb.Id,
                 LessonId = speakingQuestionFromDb.LessonId,
                 EnglishSentence = speakingQuestionFromDb.EnglishSentence
             };
@@ -40,14 +42,12 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
         [HttpPut]
         public async Task<SpeakingQuestionCreateOutputDto> Update(SpeakingQuestionUpdateDto input)
         {
-            SpeakingQuestion speakingQuestion = new SpeakingQuestion
-            {
-                Id = input.Id,
-                LessonId = input.LessonId,
-                EnglishSentence = input.EnglishSentence,
-            };
+            SpeakingQuestion speakingQuestion = await _speakingQuestions.GetAsync(input.Id);
+            speakingQuestion.EnglishSentence = input.EnglishSentence;
 
             var speakingQuestionFromDb = await _speakingQuestions.UpdateAsync(speakingQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new SpeakingQuestionCreateOutputDto
             {
                 Id = speakingQuestionFromDb.Id,
@@ -58,11 +58,10 @@ namespace LanguageLearning.AppServices.SpeakingQuestions
         }
 
         [HttpDelete]
-        public async Task Delete(int input)
+        public async Task Delete(int id)
         {
-            await _speakingQuestions.DeleteAsync(input);
+            await _speakingQuestions.DeleteAsync(id);
         }
 
     }
-    public interface ISpeakingQuestionsAppService : IApplicationService { }
 }

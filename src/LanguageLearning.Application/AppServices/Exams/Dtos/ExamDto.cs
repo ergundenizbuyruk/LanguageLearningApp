@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace LanguageLearning.AppServices.Exams.Dtos
 {
-    public class ExamDto : EntityDto
+    public class ExamDto
     {
         public List<GramerQuestionDto> GramerQuestions { get; set; } = new List<GramerQuestionDto>();
         public List<ListeningQuestionDto> ListeningQuestions { get; set; } = new List<ListeningQuestionDto>();

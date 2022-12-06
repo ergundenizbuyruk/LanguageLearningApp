@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace LanguageLearning.AppServices.WritingQuestions
 {
     [AbpAuthorize(PermissionNames.Admin)]
-    public class WritingQuestionsAppService : IWritingQuestionsAppService
+    public class WritingQuestionsAppService : ApplicationService
     {
         private readonly IRepository<WritingQuestion> _writingQuestions;
 
@@ -30,6 +30,8 @@ namespace LanguageLearning.AppServices.WritingQuestions
             };
 
             var writingQuestionFromDb = await _writingQuestions.InsertAsync(writingQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new WritingQuestionCreateOutputDto
             {
                 Id = writingQuestionFromDb.Id,
@@ -42,15 +44,13 @@ namespace LanguageLearning.AppServices.WritingQuestions
         [HttpPut]
         public async Task<WritingQuestionCreateOutputDto> Update(WritingQuestionUpdateDto input)
         {
-            WritingQuestion writingQuestion = new WritingQuestion
-            {
-                Id = input.Id,
-                LessonId = input.LessonId,
-                TurkishSentence = input.TurkishSentence,
-                EnglishSentence = input.EnglishSentence,
-            };
+            WritingQuestion writingQuestion = await _writingQuestions.GetAsync(input.Id);
+            writingQuestion.EnglishSentence = input.EnglishSentence;
+            writingQuestion.TurkishSentence= input.TurkishSentence;
 
             var writingQuestionFromDb = await _writingQuestions.UpdateAsync(writingQuestion);
+            await CurrentUnitOfWork.SaveChangesAsync();
+
             return new WritingQuestionCreateOutputDto
             {
                 Id = writingQuestionFromDb.Id,
@@ -62,10 +62,9 @@ namespace LanguageLearning.AppServices.WritingQuestions
         }
 
         [HttpDelete]
-        public async Task Delete(int input)
+        public async Task Delete(int id)
         {
-            await _writingQuestions.DeleteAsync(input);
+            await _writingQuestions.DeleteAsync(id);
         }
     }
-    public interface IWritingQuestionsAppService : IApplicationService { }
 }
