@@ -13,12 +13,10 @@ using LanguageLearning.Authorization;
 using LanguageLearning.Authorization.Roles;
 using LanguageLearning.Authorization.Users;
 using LanguageLearning.Domain;
-using LanguageLearning.Roles.Dto;
 using LanguageLearning.Users.Dto;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -153,12 +151,6 @@ namespace LanguageLearning.Users
             {
                 entity.IsActive = false;
             });
-        }
-        [AbpAuthorize]
-        public async Task<ListResultDto<RoleDto>> GetRoles()
-        {
-            var roles = await _roleRepository.GetAllListAsync();
-            return new ListResultDto<RoleDto>(ObjectMapper.Map<List<RoleDto>>(roles));
         }
 
         public async Task ChangeLanguage(ChangeUserLanguageDto input)
