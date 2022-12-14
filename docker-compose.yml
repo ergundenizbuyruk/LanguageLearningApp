@@ -2,9 +2,11 @@
 
 services:
     web-app:
-        build:
-          context: .
-          dockerfile: src/LanguageLearning.Web.Host/Dockerfile
+        build: 
+            context: .
+            dockerfile: src/LanguageLearning.Web.Host/Dockerfile
+        image: web-app:1.0
+        container_name: web-app
         ports:
           - "8080:80"
         environment:
@@ -14,12 +16,18 @@ services:
           - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
         depends_on:
           - ms-sql
+        stdin_open: true
+        restart: unless-stopped
+        tty: true
 
     ms-sql:
         image: "mcr.microsoft.com/mssql/server:2019-latest"
+        container_name: ms-sql
         ports:
           - "1433:1433"
-
         environment:
             SA_PASSWORD: "E.deniz123"
             ACCEPT_EULA: "Y"
+        stdin_open: true
+        restart: unless-stopped
+        tty: true
