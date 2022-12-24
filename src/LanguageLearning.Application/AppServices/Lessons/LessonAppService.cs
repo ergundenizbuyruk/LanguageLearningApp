@@ -60,7 +60,7 @@ namespace LanguageLearning.AppServices.Lessons
         public async Task<List<LessonGetAllByUserAndByLanguageOutputDto>> GetAllLessonsByUserAndByLanguageWithPassAttribute(LessonGetAllByUserAndByLanguageInputDto input)
         {
             var allLessonList = _userCurrentLesson.GetAll().Include(p => p.Lesson).ThenInclude(p => p.Language)
-                .Where(p => p.UserId == input.UserId).Where(p => p.Lesson.LanguageId == input.LanguageId)
+                .Where(p => p.UserId == AbpSession.UserId).Where(p => p.Lesson.LanguageId == input.LanguageId)
                 .ToListAsync().Result.Select(u => new LessonGetAllByUserAndByLanguageOutputDto
                 {
                     LessonName = u.Lesson.Name,
@@ -73,7 +73,6 @@ namespace LanguageLearning.AppServices.Lessons
 
         public async Task<LessonWithoutQuestionsDto> CreateAsync(LessonCreateDto input)
         {
-
             Lesson lesson = new Lesson
             {
                 Name = input.Name,

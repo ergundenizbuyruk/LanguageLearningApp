@@ -5,6 +5,7 @@ using LanguageLearning.AppServices.Comments.Dtos;
 using LanguageLearning.Authorization;
 using LanguageLearning.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
@@ -14,23 +15,25 @@ namespace LanguageLearning.AppServices.Comments
 {
     [AbpAuthorize]
     public class CommentAppService : ApplicationService
-
-
     {
 
         private readonly IRepository<Comment> _commentRepository;
-
 
         public CommentAppService(IRepository<Comment> commentRepository)
         {
             _commentRepository = commentRepository;
         }
 
-
         [HttpGet]
-        public async Task<CommentDto> GetAsync(int id)
+        public async Task<ActionResult<CommentDto>> GetAsync(int id)
         {
             var comment = await _commentRepository.GetAsync(id);
+
+            if (comment == null)
+            {
+                return new NotFoundResult();
+            }
+
             return new CommentDto
             {
                 Content = comment.Content,
@@ -39,6 +42,19 @@ namespace LanguageLearning.AppServices.Comments
                 UserId = comment.UserId,
                 LessonId = comment.LessonId,
             };
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<CommentByLessonDto>>> GetAllByLessonAsync(int lessonId)
+        {
+            var comment = await _commentRepository.GetAll().Where(p => p.LessonId == lessonId).Include(p => p.User).ToListAsync();
+
+            if (comment == null)
+            {
+                return new NotFoundResult();
+            }
+
+            return ObjectMapper.Map<List<CommentByLessonDto>>(comment);
         }
         [HttpGet]
         public async Task<List<CommentDto>> GetAllAsync()
@@ -80,9 +96,15 @@ namespace LanguageLearning.AppServices.Comments
         }
         [HttpPut]
         [AbpAuthorize(PermissionNames.Student)]
-        public async Task<CommentCreateOutputDto> UpdateAsync(CommentUpdateDto input)
+        public async Task<ActionResult<CommentCreateOutputDto>> UpdateAsync(CommentUpdateDto input)
         {
             var comment = await _commentRepository.GetAsync(input.Id);
+
+            if(comment == null)
+            {
+                return new NotFoundResult();
+            }
+
             comment.Content = input.Content;
             comment.Rate = input.Rate;
 

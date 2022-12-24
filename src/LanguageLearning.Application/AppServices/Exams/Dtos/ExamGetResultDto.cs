@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LanguageLearning.AppServices.Exams.Dtos
 {
-    public class ExamGetResultDto : EntityDto
+    public class ExamGetResultDto
     {
         public int LessonId { get; set; }
         public int Grade { get; set; }

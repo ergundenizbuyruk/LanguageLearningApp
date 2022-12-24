@@ -19,7 +19,7 @@ namespace LanguageLearning.Domain
         public List<WritingQuestion> WritingQuestions { get; set; }
         public List<SpeakingQuestion> SpeakingQuestions { get; set; }
         public List<Comment> Comments { get; set; }
-        public Exam? Exam { get; set; }
+        public Exam Exam { get; set; }
         public List<User> Users { get; set; }
 
     }

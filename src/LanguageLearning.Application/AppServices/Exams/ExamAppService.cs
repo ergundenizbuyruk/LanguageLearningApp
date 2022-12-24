@@ -1,6 +1,8 @@
 ﻿using Abp.Application.Services;
 using Abp.Authorization;
 using Abp.Domain.Repositories;
+using Abp.Domain.Uow;
+using Abp.Runtime.Session;
 using Abp.UI;
 using LanguageLearning.AppServices.Exams.Dtos;
 using LanguageLearning.AppServices.GramerQuestions.Dtos;
@@ -35,7 +37,6 @@ namespace LanguageLearning.AppServices.Exams
         private readonly IRepository<Exam> _examRepository;
         Random random = new Random();
 
-
         public ExamAppService(IRepository<Lesson> lessonRepository, IRepository<GramerQuestion> gramerQuestion,
             IRepository<WritingQuestion> writingQuestion, IRepository<SpeakingQuestion> speakingQuestion,
             IRepository<ListeningQuestion> listeningQuestion, IRepository<VocabularyQuestion> vocabularyQuestion, IRepository<UserCurrentLesson> userCurrentLesson, IRepository<Exam> examRepository)
@@ -51,12 +52,12 @@ namespace LanguageLearning.AppServices.Exams
         }
 
         [HttpGet]
-        public async Task<ExamDto> GetExamByLesson(int LessonId)
+        public async Task<ActionResult<ExamDto>> GetExamByLesson(int LessonId)
         {
             var lesson = await _lessonRepository.FirstOrDefaultAsync(LessonId);
             if (lesson == null)
             {
-                throw new UserFriendlyException(LessonId + " numaralı lesson bulunamadı.");
+                return new NotFoundResult();
             }
 
             List<GramerQuestionDto> GramerQuestions = _gramerQuestion.GetAll().Where(p => p.LessonId == LessonId)
@@ -145,10 +146,10 @@ namespace LanguageLearning.AppServices.Exams
         }
 
         [HttpPost]
-        public async Task<ExamGetResultDto> CreateExamResultAndUpdateExamPassedValue(ExamCreateDto input)
+        public async Task<ActionResult<ExamGetResultDto>> CreateExamResultAndUpdateExamPassedValue (ExamCreateDto input)
         {
 
-            var userCurrentLesson = await _userCurrentLesson.GetAll().Where(p => p.LessonId == input.LessonId).Where(q => q.UserId == (long)AbpSession.UserId).FirstOrDefaultAsync();
+            var userCurrentLesson = await _userCurrentLesson.GetAll().Where(p => p.LessonId == input.LessonId && p.UserId == (long) AbpSession.GetUserId()).FirstOrDefaultAsync();
 
             if (input.Grade >= PassGrade)
             {
@@ -156,21 +157,20 @@ namespace LanguageLearning.AppServices.Exams
             }
             await _userCurrentLesson.UpdateAsync(userCurrentLesson);
 
-            Exam exam = new Exam
-            {
-                LessonId = input.LessonId,
-                UserId = (long) AbpSession.UserId,
-                Grade = input.Grade,
-            };
+            //Exam exam = new Exam
+            //{
+            //    LessonId = input.LessonId,
+            //    UserId = (long) AbpSession.UserId,
+            //    Grade = input.Grade,
+            //};
 
-            Exam examFromDb = await _examRepository.InsertAsync(exam);
-            await CurrentUnitOfWork.SaveChangesAsync();
+            //Exam examFromDb = await _examRepository.InsertAsync(exam);
+            //await CurrentUnitOfWork.SaveChangesAsync();
 
             return new ExamGetResultDto
             {
-                Id = examFromDb.Id,
-                LessonId = examFromDb.LessonId,
-                Grade = examFromDb.Grade,
+                LessonId = userCurrentLesson.Id,
+                Grade = input.Grade,
                 IsPassed = userCurrentLesson.IsPassed,
             };
         }

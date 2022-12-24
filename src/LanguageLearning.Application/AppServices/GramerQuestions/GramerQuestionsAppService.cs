@@ -50,9 +50,15 @@ namespace LanguageLearning.AppServices.GramerQuestions
         }
 
         [HttpPut]
-        public async Task<GramerQuestionCreateOutputDto> Update(GramerQuestionUpdateDto input)
+        public async Task<ActionResult<GramerQuestionCreateOutputDto>> Update(GramerQuestionUpdateDto input)
         {
             var gramerQuestion = await _gramerQuestions.GetAsync(input.Id);
+
+            if(gramerQuestion == null)
+            {
+                return new NotFoundResult();
+            }
+
             gramerQuestion.Sentence= input.Sentence;
             gramerQuestion.OptionA= input.OptionA;
             gramerQuestion.OptionB= input.OptionB;
