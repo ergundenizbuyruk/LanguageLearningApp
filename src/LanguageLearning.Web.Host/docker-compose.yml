@@ -8,14 +8,14 @@ services:
         image: web-app:1.0
         container_name: web-app
         ports:
-          - "8080:80"
-          - "8081:443"
-        environment:
-          - ASPNETCORE_ENVIRONMENT=Development
-          - ASPNETCORE_URLS=https://+:443;http://+:80
-          - ASPNETCORE_HTTPS_PORT=8081
-          - ASPNETCORE_Kestrel__Certificates__Default__Password=E.deniz123
-          - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/LanguageLearning.pfx
+          - "8000:80"
+          - "8001:443"
+        #environment:
+        #  - ASPNETCORE_ENVIRONMENT=Development
+        #  - ASPNETCORE_URLS=https://+:443;http://+:80
+        #  - ASPNETCORE_HTTPS_PORT=8081
+        #  - ASPNETCORE_Kestrel__Certificates__Default__Password=E.deniz123
+        #  - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/LanguageLearning.pfx
         depends_on:
           - ms-sql
         stdin_open: true
