@@ -9,7 +9,7 @@ services:
         container_name: web-app
         ports:
           - "8000:80"
-          - "8001:443"
+          #- "8001:443"
         #environment:
         #  - ASPNETCORE_ENVIRONMENT=Development
         #  - ASPNETCORE_URLS=https://+:443;http://+:80
